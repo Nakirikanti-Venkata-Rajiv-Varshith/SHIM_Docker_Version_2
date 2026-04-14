@@ -22,10 +22,22 @@ function App() {
         {/* Metric Gauges Row */}
         <div className={styles.gaugesRow}>
           <MetricGauge
+            label="GPU Usage"
+            value={current ? parseFloat(current.gpu) : 0}
+            unit="%"
+            color="#00FF88"
+            anomaly={anomalies.find(a => a.metric === 'gpu')}
+            prediction={predictions?.gpu?.at_120s}
+            gpuMemory={{
+              used: current?.gpu_mem_used || 0,
+              total: current?.gpu_mem_total || 0
+            }}
+          />
+          <MetricGauge
             label="CPU Load"
             value={current ? parseFloat(current.cpu) : 0}
             unit="%"
-            color="blue"
+            color="#00CCCC"
             anomaly={cpuAnomaly}
             prediction={predictions?.cpu?.at_120s}
           />
@@ -33,7 +45,7 @@ function App() {
             label="RAM Usage"
             value={current ? parseFloat(current.ram) : 0}
             unit="%"
-            color="cyan"
+            color="#CC55FF"
             anomaly={ramAnomaly}
             prediction={predictions?.ram?.at_120s}
           />
@@ -41,21 +53,9 @@ function App() {
             label="Disk Usage"
             value={current ? parseFloat(current.disk) : 0}
             unit="%"
-            color="amber"
+            color="#FFAA00"
             anomaly={diskAnomaly}
             prediction={predictions?.disk?.at_120s}
-          />
-          <MetricGauge
-            label="GPU Usage"
-            value={current ? parseFloat(current.gpu) : 0}
-            unit="%"
-            color="blue"
-            anomaly={anomalies.find(a => a.metric === 'gpu')}
-            prediction={predictions?.gpu?.at_120s}
-            gpuMemory={{
-              used: current?.gpu_mem_used || 0,
-              total: current?.gpu_mem_total || 0
-            }}
           />
         </div>
 

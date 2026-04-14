@@ -1,11 +1,19 @@
 import styles from './MetricGauge.module.css'
 import { getThresholdColor } from '../utils/formatters'
+import { Cpu, HardDrive, MemoryStick, Monitor } from 'lucide-react'
 
 const COLOR_MAP = {
-  blue: '#3b82f6',
-  cyan: '#00c6e0',
-  amber: '#f59e0b',
-  red: '#ef4444',
+  blue: '#00CCCC',
+  cyan: '#CC55FF',
+  amber: '#FFAA00',
+  red: '#00FF88',
+}
+
+const ICON_MAP = {
+  'CPU Load': Cpu,
+  'RAM Usage': MemoryStick,
+  'Disk Usage': HardDrive,
+  'GPU Usage': Monitor,
 }
 
 const DEFAULT_THRESHOLDS = { warning: 75, critical: 90 }
@@ -19,14 +27,20 @@ export default function MetricGauge({
   thresholds = DEFAULT_THRESHOLDS,
   anomaly = null,
   prediction = null,
-  gpuMemory = null, 
+  gpuMemory = null,
 }) {
   const safeValue = isNaN(value) ? 0 : value
   const pct = Math.min(100, Math.max(0, (safeValue / maxValue) * 100))
-  const baseColor = COLOR_MAP[color] || COLOR_MAP.blue
-  const dynamicColor = getThresholdColor(pct, thresholds)
+
+  const baseColor = COLOR_MAP[color] || color || COLOR_MAP.blue
+
+  const dynamicColor =
+    pct >= thresholds.warning
+      ? getThresholdColor(pct, thresholds)
+      : baseColor
 
   const isAnomaly = !!anomaly
+
   const animClass =
     anomaly?.severity === 'critical'
       ? styles.pulseCritical
@@ -56,8 +70,21 @@ export default function MetricGauge({
   const progress = pct / 100
   const strokeDashoffset = circumference * (1 - progress)
 
+  const Icon = ICON_MAP[label]
+
   return (
-    <div className={`${styles.card} ${isAnomaly ? animClass : ''}`}>
+    <div
+      className={`${styles.card} ${isAnomaly ? animClass : ''}`}
+      style={{ '--glow-color': dynamicColor }}
+    >
+      {/* Icon */}
+      {Icon && (
+        <div className={styles.iconWrapper}>
+          <Icon size={18} color={dynamicColor} />
+        </div>
+      )}
+
+      {/* Anomaly Badge */}
       {isAnomaly && (
         <div className={`${styles.anomalyBadge} ${styles[anomaly.severity]}`}>
           {anomaly.severity === 'critical' ? '⚠ CRITICAL' : '⚡ ANOMALY'}
@@ -86,6 +113,7 @@ export default function MetricGauge({
             cx={size / 2}
             cy={size / 2}
             transform={`rotate(-90 ${size / 2} ${size / 2})`}
+            style={{ filter: 'drop-shadow(0 0 6px currentColor)' }}
           />
         </svg>
 
@@ -99,6 +127,7 @@ export default function MetricGauge({
 
       <div className={styles.footer}>
         <span className={styles.metricLabel}>{label}</span>
+
         {prediction != null && (
           <span className={styles.prediction} style={{ color: predColor }}>
             {trendArrow} {prediction.toFixed(1)}% in 2m
@@ -112,7 +141,7 @@ export default function MetricGauge({
         </div>
       )}
 
-      {/*  GPU memory display */}
+      {/* GPU memory */}
       {gpuMemory && (
         <div className={styles.memory}>
           {gpuMemory.used} MB / {gpuMemory.total} MB
