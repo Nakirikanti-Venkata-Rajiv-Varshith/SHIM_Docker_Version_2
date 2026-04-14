@@ -1,4 +1,4 @@
-# 🚀 S.H.I.M. — Self-Healing Infrastructure Monitor
+# 🚀 P.R.I.S.M - Predictive Resource Intelligence & Scaling Manager
 
 > AIOps system that **predicts failures and heals automatically** using ML + real system actions.
 
