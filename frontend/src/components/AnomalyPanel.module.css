@@ -1,0 +1,186 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--border-subtle);
+  flex-shrink: 0;
+}
+
+.summary {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.countBadge {
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-size: 10px;
+  font-weight: 600;
+  background: var(--bg-hover);
+  color: var(--text-secondary);
+  border: 1px solid var(--border);
+}
+
+.countBadge[data-count='0'] {
+  color: var(--accent-green);
+  background: var(--accent-green-dim);
+  border-color: rgba(34, 197, 94, 0.2);
+}
+
+.method {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-muted);
+}
+
+.content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 10px;
+}
+
+/* Nominal state */
+.nominal {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px;
+  border-radius: var(--radius-md);
+  background: var(--accent-green-dim);
+  border: 1px solid rgba(34, 197, 94, 0.2);
+}
+
+.nominalIcon {
+  font-size: 24px;
+  color: var(--accent-green);
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.nominalText {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.nominalText strong {
+  font-size: 13px;
+  color: var(--accent-green);
+  font-weight: 600;
+}
+
+.nominalText span {
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+
+/* Anomaly list */
+.anomalyList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.anomalyItem {
+  padding: 10px 12px;
+  border-radius: var(--radius-md);
+  border: 1px solid transparent;
+  animation: fade-in 0.3s ease;
+}
+
+.anomalyItem.critical {
+  background: var(--accent-red-dim);
+  border-color: rgba(239, 68, 68, 0.25);
+}
+
+.anomalyItem.warning {
+  background: var(--accent-amber-dim);
+  border-color: rgba(245, 158, 11, 0.2);
+}
+
+/* Item header */
+.itemHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.metricName {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+  letter-spacing: 0.05em;
+}
+
+.severityBadge {
+  padding: 2px 7px;
+  border-radius: 4px;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.severityBadge.critical {
+  background: rgba(239, 68, 68, 0.2);
+  color: var(--accent-red);
+}
+
+.severityBadge.warning {
+  background: rgba(245, 158, 11, 0.2);
+  color: var(--accent-amber);
+}
+
+/* Stats grid */
+.itemStats {
+  display: flex;
+  gap: 12px;
+}
+
+.statRow {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.statKey {
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.statVal {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.zHighlight.critical {
+  color: var(--accent-red);
+}
+
+.zHighlight.warning {
+  color: var(--accent-amber);
+}
+
+.detectedAt {
+  margin-top: 6px;
+  font-size: 10px;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+}

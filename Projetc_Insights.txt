@@ -1,0 +1,245 @@
+# 🚀 S.H.I.M. — Learning Through This Project
+
+## 🧠 1. Architecture Understanding
+
+### Components
+
+* **metricsService (🧠 brain)** → controls logic, ML calls, healing decisions
+* **HealingEngine (⚙️ muscles)** → executes actions (scale/restart)
+* **csvStorage (📚 memory)** → file-based DB (metrics + logs)
+* **routes (🌐 API layer)** → exposes endpoints
+* **index.js (⚡ nervous system)** → connects everything
+
+### Insight
+
+👉 Separation of concerns is critical.
+Routes = interface, Services = logic, Engine = execution.
+
+---
+
+## ⚙️ 2. Backend Flow
+
+### Two flows:
+
+1. **API Flow**
+   Client → Routes → metricsService → response
+
+2. **Background Flow**
+   setInterval → collect metrics → ML → HealingEngine
+
+### Insight
+
+👉 Backend is not just request-response.
+It also runs **continuous background jobs**.
+
+---
+
+## 🔄 3. Polling vs Real-Time
+
+### Problem
+
+Frontend was polling every:
+
+* 5s (metrics)
+* 10s (healing)
+* 30s (predictions)
+
+👉 Wasteful + delayed updates
+
+### Solution
+
+* Introduced **Socket.IO**
+* Backend pushes events instantly
+
+### Insight
+
+👉 Event-driven systems > polling for real-time apps
+
+---
+
+## ⚙️ 4. PM2 (Process Manager)
+
+### Learned
+
+* Keeps app alive
+* Restarts on crash
+* Can scale instances
+
+### Modes
+
+* **Fork mode** → single instance (used now)
+* **Cluster mode** → multiple instances
+
+### Issue faced
+
+Socket.IO broke in cluster mode
+
+### Decision
+
+👉 Use **fork mode for stability**
+
+---
+
+## 🌐 5. Nginx Role
+
+### Learned
+
+* Reverse proxy
+* Load balancer
+* Single entry point
+
+### Fixes done
+
+* Added `/api` proxy
+* Fixed `/socket.io` with:
+
+  * Upgrade headers
+  * Connection headers
+
+### Insight
+
+👉 WebSockets require special proxy handling
+
+---
+
+## 🐛 6. Critical Bug — PORT = 30010
+
+### Problem
+
+```js
+3001 + "0" → "30010"
+```
+
+### Cause
+
+* `process.env.NODE_APP_INSTANCE` is **string**
+
+### Fix
+
+```js
+Number(process.env.NODE_APP_INSTANCE)
+```
+
+### Insight
+
+👉 ENV variables are always strings → must convert
+
+---
+
+## 🔁 7. PM2 Cache Issue
+
+### Problem
+
+* Old + new code both running
+* Mixed logs (30010 & 3001)
+
+### Fix
+
+```bash
+pm2 delete all
+pm2 kill
+pm2 start src/index.js
+```
+
+### Insight
+
+👉 PM2 caches process state → must reset cleanly
+
+---
+
+## ⚡ 8. Scaling Reality Check
+
+### What we expected
+
+* PM2 scale → more power
+
+### What actually happens
+
+* Only port 3001 used
+* other instances idle
+
+### Insight
+
+👉 Scaling ≠ automatic load balancing
+
+---
+
+## 🔴 9. Why Redis is Needed
+
+### Problem
+
+* Multiple instances don’t share state
+* Socket.IO breaks
+
+### Solution (future)
+
+* Redis adapter
+
+### Decision
+
+👉 Postponed for Ubuntu deployment
+
+---
+
+## 🧪 10. Debugging Approach Learned
+
+Steps:
+
+1. Run without PM2
+2. Verify backend works
+3. Add PM2
+4. Check logs
+5. Isolate issue (port / env / process)
+
+### Insight
+
+👉 Always isolate layers:
+
+* Code
+* Runtime
+* Process manager
+
+---
+
+## 🧠 11. Key Engineering Lessons
+
+* ENV variables are strings
+* Process managers can cache state
+* Real-time systems need event-driven design
+* Scaling requires:
+
+  * load balancing
+  * shared state (Redis)
+* Debugging = narrowing down layers
+
+---
+
+## 🎯 Final System State
+
+* ✅ Stable backend (PM2 fork mode)
+* ✅ Real-time updates (Socket.IO)
+* ✅ Working healing engine
+* ✅ Clean logs + cooldown
+* ⚠️ Scaling is simulated (not fully distributed yet)
+
+---
+
+## 🚀 Next Step
+
+* Move to Ubuntu
+* Add Redis
+* Enable real load balancing
+
+---
+
+## 💡 Final Realization
+
+👉 Understanding system ≠ implementing instantly
+👉 Execution comes from repetition
+👉 Debugging is the real skill, not just coding
+
+
+## 📸 Dashboard Preview
+
+<img src="assets/dashboard.png" width="1000"/>
+---
