@@ -19,8 +19,8 @@ export default function StatusBar({ current, isConnected }) {
   return (
     <header className={styles.bar}>
       <div className={styles.brand}>
-        <span className={styles.logo}>S.H.I.M</span>
-        <span className={styles.tagline}>Self-Healing Infrastructure Monitor</span>
+        <span className={styles.logo}>P.R.I.S.M</span>
+        <span className={styles.tagline}>Predictive Resource Intelligence & Scaling Manager</span>
       </div>
 
       <div className={styles.center}>
