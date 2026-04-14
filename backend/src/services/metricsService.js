@@ -1,6 +1,6 @@
 const si = require('systeminformation')
 const path = require('path')
-const { exec } = require('child_process') // ✅ added
+const { exec } = require('child_process') 
 const CSVStorage = require('./csvStorage')
 const HealingEngine = require('./healingEngine')
 
@@ -9,7 +9,7 @@ const ML_SERVICE_URL = process.env.ML_SERVICE_URL || 'http://localhost:5000'
 const COLLECTION_INTERVAL_MS = 5000
 const PREDICTION_EVERY_N = 6
 
-// ✅ GPU helper (added)
+
 function getGPUStats() {
   return new Promise((resolve) => {
     exec(
@@ -131,13 +131,13 @@ async function fetchPredictions(history) {
 // Core Loop 
 async function collectMetrics() {
   try {
-    // ✅ replaced si.graphics() with getGPUStats()
+    // replaced si.graphics() with getGPUStats() u get GPU stats in Ubuntu
     const [cpuLoad, mem, fsSize, cpuTemp, gpuStats] = await Promise.all([
       si.currentLoad(),
       si.mem(),
       si.fsSize(),
       si.cpuTemperature().catch(() => ({ main: null })),
-      getGPUStats(), // ✅ FIX
+      getGPUStats(), 
     ])
 
     const cpu = parseFloat(cpuLoad.currentLoad.toFixed(2))
@@ -150,7 +150,7 @@ async function collectMetrics() {
 
     const cpu_temp = cpuTemp.main ? parseFloat(cpuTemp.main.toFixed(1)) : null
 
-    // ✅ GPU (from nvidia-smi)
+    // GPU (from nvidia-smi)
     const gpu_usage = gpuStats.gpu
     const gpu_mem_used = gpuStats.gpu_mem_used
     const gpu_mem_total = gpuStats.gpu_mem_total
