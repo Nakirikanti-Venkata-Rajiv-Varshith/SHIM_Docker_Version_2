@@ -117,6 +117,73 @@ docker run --rm --gpus all nvidia/cuda:12.4.1-base-ubuntu22.04 nvidia-smi
 
 ---
 
+## 🛠️ Setup for Local Usage without using Docker's
+
+---
+
+### 🔹 1. Backend (IMPORTANT: Use PM2)
+
+```bash
+cd backend
+npm install
+
+# Start backend with PM2 (required for real healing)
+pm2 start src/index.js --name shim 
+
+# Stop the app PM2 if u want
+pm2 stop shim
+```
+
+---
+
+### 🛑 Managing PM2 (IMPORTANT)
+
+```bash
+# Check running processes
+pm2 list
+# Monitor CPU / Memory live
+pm2 monit
+# Stop the app
+pm2 stop shim
+# Restart the app
+pm2 restart shim
+# Delete the app completely (recommended when done)
+pm2 delete shim
+# Stop all apps
+pm2 stop all
+```
+
+---
+
+### ⚠️ Note
+
+* Do NOT use `npm run dev` when testing healing
+* PM2 must control the process for scaling & restart to work
+
+---
+
+### 🔹 2. ML Service
+
+```bash
+cd ml
+pip install -r requirements.txt
+python predictor.py
+```
+
+---
+
+### 🔹 3. Frontend
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+👉 Open: http://localhost:5173
+
+-------------------
+
 ## 📊 What it does
 ## Monitoring (every 5s)
 * CPU %
