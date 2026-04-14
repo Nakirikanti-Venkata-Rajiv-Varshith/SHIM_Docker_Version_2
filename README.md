@@ -35,7 +35,7 @@ Observe → Predict → Decide → Act
 nvidia-smi
 ```
 
-🔍 Verify Docker GPU Access
+### 🔍 Verify Docker GPU Access
 ```bash
 docker run --rm --gpus all nvidia/cuda:12.4.1-base-ubuntu22.04 nvidia-smi
 ```
@@ -45,18 +45,18 @@ docker run --rm --gpus all nvidia/cuda:12.4.1-base-ubuntu22.04 nvidia-smi
 
 -------------------------------------------------------------------------------------------------------------------
 
-❌ If Command Not Found / No GPU Detected please follow below steps:-  
+### ❌ If Command Not Found / No GPU Detected please follow below steps:-  
 
 • 👉 Install and configure NVIDIA + Docker support:
 
-⚙️ Step 1: Install Docker
+### ⚙️ Step 1: Install Docker
 ```bash
  sudo apt update
  sudo apt install -y ca-certificates curl gnupg
  sudo install -m 0755 -d /etc/apt/keyrings
 ```
 
-🔄 Step 2: Restart Docker Services
+### 🔄 Step 2: Restart Docker Services
 ```bash
  sudo systemctl daemon-reexec
  sudo systemctl daemon-reload
@@ -71,19 +71,19 @@ docker run --rm --gpus all nvidia/cuda:12.4.1-base-ubuntu22.04 nvidia-smi
  sudo apt update
 ```
 
-🎯 Step 3: Install NVIDIA Container Toolkit
+### 🎯 Step 3: Install NVIDIA Container Toolkit
 ```bash
  sudo apt install -y nvidia-container-toolkit
  #configure runtime:
  sudo nvidia-ctk runtime configure --runtime=docker
  sudo systemctl restart docker
 ```
-🧪 Step 4: Verify GPU Inside Docker
+### 🧪 Step 4: Verify GPU Inside Docker
 ```bash
  sudo docker run --rm --gpus all nvidia/cuda:12.4.1-base-ubuntu22.04 nvidia-smi
 ```
 
-✅ Expected:
+### ✅ Expected:
 - GPU name
 - Memory usage
 - Driver version 
@@ -102,7 +102,7 @@ docker run --rm --gpus all nvidia/cuda:12.4.1-base-ubuntu22.04 nvidia-smi
 ```
 * 👉 Open: http://localhost
 
-## Stop, Restart && Clean (Docker)
+### Stop, Restart && Clean (Docker)
 ```
     # Docker stop
     docker compose down
@@ -175,7 +175,7 @@ npm run dev
 -------------------
 
 ## 📊 What it does
-## Monitoring (every 5s)
+### Monitoring (every 5s)
 * CPU %
 * RAM %
 * Disk %
