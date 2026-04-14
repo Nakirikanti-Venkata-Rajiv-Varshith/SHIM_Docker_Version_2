@@ -1,4 +1,4 @@
-FROM node:20-alpine
+FROM node:20-slim
 
 WORKDIR /app
 
@@ -7,11 +7,15 @@ RUN npm ci --omit=dev
 
 COPY . .
 
-# Ensure data and scripts dirs exist; make scripts executable
+# Install bash (Debian way)
+RUN apt-get update && apt-get install -y bash && rm -rf /var/lib/apt/lists/*
+
+# Ensure data and scripts dirs exist
 RUN mkdir -p data && \
     chmod +x scripts/*.sh 2>/dev/null || true
 
-RUN apk add --no-cache bash && npm install -g pm2
+# Install PM2
+RUN npm install -g pm2
 
 EXPOSE 3001
 

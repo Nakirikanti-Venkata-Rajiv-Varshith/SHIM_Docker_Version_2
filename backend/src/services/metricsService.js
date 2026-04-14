@@ -13,7 +13,7 @@ const PREDICTION_EVERY_N = 6
 function getGPUStats() {
   return new Promise((resolve) => {
     exec(
-      '/usr/bin/nvidia-smi --query-gpu=utilization.gpu,memory.used,memory.total --format=csv,noheader,nounits',
+      'which nvidia-smi && nvidia-smi --query-gpu=utilization.gpu,memory.used,memory.total --format=csv,noheader,nounits',
       (err, stdout) => {
         if (err || !stdout) {
           return resolve({
